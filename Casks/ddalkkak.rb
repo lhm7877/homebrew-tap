@@ -8,21 +8,19 @@ cask "ddalkkak" do
   desc "Switches between Korean and English input the moment the key is pressed"
   homepage "https://github.com/lhm7877/ddalkkak"
 
-  depends_on macos: ">= :ventura"
+  depends_on macos: :ventura
 
   app "Ddalkkak.app"
-
-  # Apple 공증을 받지 않은 앱이라, 설치 뒤 바로 열 수 있게 격리 표시를 지운다
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args: ["-dr", "com.apple.quarantine", "#{appdir}/Ddalkkak.app"]
-  end
 
   uninstall quit: "io.github.lhm7877.Ddalkkak"
 
   zap trash: "~/Library/Preferences/io.github.lhm7877.Ddalkkak.plist"
 
   caveats <<~EOS
+    Apple 공증을 받지 않은 앱이라 처음 열 때 macOS 가 막을 수 있습니다.
+    시스템 설정 > 개인정보 보호 및 보안 > 아래쪽의 "그래도 열기" 를 누르거나, 아래 명령을 실행하세요.
+      xattr -dr com.apple.quarantine /Applications/Ddalkkak.app
+
     처음 실행하면 손쉬운 사용 권한을 묻습니다.
     시스템 설정 > 개인정보 보호 및 보안 > 손쉬운 사용에서 딸깍한영을 켜 주세요.
   EOS
